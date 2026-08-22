@@ -19,13 +19,13 @@ int main(){
     float basketHeight =60.f;
     float initialBasketPosX = 900.f ;
     float initialBasketPosY = 1020.f ;
-    float basketSpeed = 600.f ; //pixels per sec
+    float basketSpeed = 1500.f ; //pixels per sec
 
     //Ball Dimension:
     float ballRadius = 30.f;
     float ballPosX = 960.f;
     float ballPosY = 10.f ; 
-    float verticalBallSpeed = 900.f; //pixels per sec 
+    float verticalBallSpeed = 1500.f; //pixels per sec 
 
     gameData dataGame; // dataGame for the score, lives and gameStarted 
     // bool gameWon= false; 
@@ -51,22 +51,29 @@ int main(){
 
     //For the score text:
     sf::Text ScoreText (font); 
-    ScoreText.setCharacterSize(15); 
+    ScoreText.setCharacterSize(30); 
     ScoreText.setPosition({10.f,10.f}); 
     ScoreText.setFillColor(sf::Color::White); 
 
 
     //For the lives text : 
     sf::Text LivesText (font); 
-    LivesText.setCharacterSize(15); 
-    LivesText.setPosition({10.f,25.f}); 
+    LivesText.setCharacterSize(30); 
+    LivesText.setPosition({10.f,35.f}); 
     LivesText.setFillColor(sf::Color::White);
 
+    //Final Result Text
     sf::Text resultText(font); 
-    resultText.setCharacterSize(16); 
-    resultText.setPosition({390.f ,290.f}); 
+    resultText.setCharacterSize(30); 
+    resultText.setPosition({730.f ,450.f}); 
     resultText.setFillColor(sf::Color::Yellow); 
 
+
+    //Menu Text
+    sf::Text MenuText(font); 
+    MenuText.setCharacterSize(50); 
+    MenuText.setPosition({600.f,400.f});
+    MenuText.setFillColor(sf::Color::Red); 
 
 
 
@@ -100,6 +107,7 @@ int main(){
             if(event->is<sf::Event::Closed>()){
                 window.close(); 
             }
+            
 
             if(event->is<sf::Event::KeyPressed>()){
                 auto key = event->getIf<sf::Event::KeyPressed>()->code; 
@@ -143,6 +151,10 @@ int main(){
         );
 
         // if(dataGame.gameStarted && !gameWon && !gameLost)
+        if(gameState== GameState::gameMenu){
+            MenuText.setString("Welcome to the Game!!!\n");
+            resultText.setString("Press ENTER to Play !!!");//Just for the different color 
+        }
         
         if(gameState == GameState::gamePlaying ){
             moveBasket(basket,basketWidth,basketSpeed,dt);
@@ -167,17 +179,25 @@ int main(){
                 }
 
         window.clear(sf::Color(30,30,50)); 
-        window.draw(ScoreText); 
-        window.draw(LivesText); 
+                
+        if(gameState==GameState::gameMenu){
+            window.draw(MenuText); 
+            window.draw(resultText) ; 
+        }
+
         if (gameState== GameState::gamePlaying){
+            
             window.draw(ball); 
             window.draw(basket);
+            window.draw(ScoreText); 
+            window.draw(LivesText); 
             
         }
              
         if(gameState == GameState::gameLost || gameState== GameState::gameWon){
             window.draw(resultText); 
         }
+
         
         window.display(); 
     }
