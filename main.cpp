@@ -15,8 +15,8 @@ int main(){
     unsigned int scrnheight = 1080; 
 
     //Basket Dimensions:
-    float basketWidth = 150.f ; 
-    float basketHeight =60.f;
+    float basketWidth = 250.f ; 
+    float basketHeight =100.f;
     float initialBasketPosX = 900.f ;
     float initialBasketPosY = 1020.f ;
     float basketSpeed = 1500.f ; //pixels per sec
@@ -75,8 +75,7 @@ int main(){
     MenuText.setPosition({600.f,400.f});
     MenuText.setFillColor(sf::Color::Red); 
 
-
-
+   
     //Defining the basket
     sf::RectangleShape basket (
         sf::Vector2f(basketWidth, basketHeight) 
@@ -88,14 +87,43 @@ int main(){
         sf::Vector2f(initialBasketPosX,initialBasketPosY)
     ); 
 
+
+
+
     //filling basket color 
-    basket.setFillColor(sf::Color::Blue);
+    // basket.setFillColor(sf::Color::Blue);
 
     sf::CircleShape ball(ballRadius); //20.f is radius 
     ball.setPosition(
         sf::Vector2f(ballPosX,ballPosY)
 
     );
+
+    sf::Texture backgroundTexture; 
+    if(!backgroundTexture.loadFromFile("bgGame.jpg")){
+        std::cout<<"Failed to load background"<<std::endl; 
+    }
+    sf::Sprite background(backgroundTexture);
+
+
+    sf::Texture ballTexture;
+    if(!ballTexture.loadFromFile("apple_pixels.png")){
+        std::cout<<"Faile to load apple image"<<std::endl ; 
+    }
+    ball.setTexture(&ballTexture);
+
+
+    sf::Texture basketTexture; 
+    if(!basketTexture.loadFromFile("basket_pixels.png")){
+        std::cout<<"Failed to load basket image"<<std::endl; 
+         
+    }
+    
+    basket.setTexture(&basketTexture);
+
+
+
+   
 
     ball.setFillColor(sf::Color::Red); 
     sf::Clock clock ; 
@@ -179,6 +207,7 @@ int main(){
                 }
 
         window.clear(sf::Color(30,30,50)); 
+        window.draw(background);
                 
         if(gameState==GameState::gameMenu){
             window.draw(MenuText); 
