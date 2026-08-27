@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp> 
+#include<SFML/Audio.hpp> 
 #include <iostream>
 #include<random>
 #include "gameData.h"
@@ -122,8 +123,16 @@ int main(){
     basket.setTexture(&basketTexture);
 
 
+    sf::Music music ; 
+    if(!music.openFromFile("bg_music.ogg")){
+        std::cout<<"Failed to Load music"<<std::endl ;  
+        return -1; 
+    }
 
-   
+
+
+   music.setLooping(true); 
+   music.play();
 
     ball.setFillColor(sf::Color::Red); 
     sf::Clock clock ; 
